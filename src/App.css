@@ -1,3 +1,11 @@
+.homeHeader {
+  background-color: "black";
+  display: block;
+  color: white;
+  padding-left: 17px;
+  font-size: 27;
+}
+
 .App {
   text-align: center;
 }
