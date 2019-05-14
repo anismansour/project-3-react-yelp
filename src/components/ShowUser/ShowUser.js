@@ -25,11 +25,11 @@ class ShowUser extends Component {
   };
 
   doDeleteRestaurant = async (id, e) => {
-    console.log(id, " this is id");
+    console.log(" this is id", this.props.match.params.id);
     //e.preventDefault(e);
     try {
       const deleteRestaurant = await fetch(
-        `/users/${this.props.user.restaurants.id}`,
+        `/users/${this.props.match.params.id}/restaurants/${id}`,
         {
           method: "DELETE"
         }
@@ -37,30 +37,12 @@ class ShowUser extends Component {
       console.log(deleteRestaurant, "inside try");
       const deleteRestaurantJson = await deleteRestaurant.json();
       this.setState({
-        restaurantId: this.state.restaurantId.filter(
-          (restaurant, i) => restaurant.id !== id
-        )
+        user: deleteRestaurantJson.user
       });
     } catch (err) {
       console.log(err, " error");
     }
   };
-
-  // doDeleteRestaurant = async obj => {
-  //   const { currentUser } = this.props;
-  //   //console.log(cu);
-
-  //   const deleteRestaurant = await fetch(`/users/:${currentUser._id}`, {
-  //     method: "DELETE",
-  //     credentials: "include",
-  //     body: JSON.stringify(obj),
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   });
-  //   const parsedResponse = await deleteRestaurant.json();
-  //   console.log(parsedResponse);
-  // };
 
   render() {
     return (
@@ -72,7 +54,9 @@ class ShowUser extends Component {
           this.state.user.restaurantId.map((r, i) => (
             <li>
               <Link to={`/restaurants/${r.id}`}>{r.name}</Link>
-              <button onClick={() => this.doDeleteRestaurant(r)}>delete</button>
+              <button onClick={() => this.doDeleteRestaurant(r.id)}>
+                delete
+              </button>
             </li>
           ))}
       </div>

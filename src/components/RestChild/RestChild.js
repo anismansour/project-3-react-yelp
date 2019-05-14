@@ -27,7 +27,10 @@ class RestChild extends Component {
           <button onClick={() => this.doAddRestaurant(r)}>
             Add to My List
           </button>
-          <button>Show on Website</button>
+
+          <button>
+            <a href={r.url}> Show on Website </a>
+          </button>
         </li>
       );
     });

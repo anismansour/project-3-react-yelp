@@ -24,46 +24,6 @@ class App extends Component {
     const { currentUser } = this.state;
     return (
       <div>
-        <NavBar />
-        <Switch>
-          <Route exact path={routes.ROOT} render={() => <div>ROOT</div>} />
-          <Route
-            exact
-            path={routes.HOME}
-            render={() => <RestaurantsList currentUser={currentUser} />}
-          />
-
-          <Route exact path={routes.USERS} render={() => <div>USER</div>} />
-          <Route exact path={routes.POSTS} render={() => <div>POST</div>} />
-          <Route
-            exact
-            path={"/login"}
-            render={() => (
-              <Login
-                doSetCurrentUser={this.doSetCurrentUser}
-                currentUser={this.state.currentUser}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${routes.USERS}/:id`}
-            render={() => <ShowUser />}
-          />
-          <Route
-            exact
-            path={routes.LOGIN}
-            render={() => (
-              <Login
-                currentUser={this.state.currentUser}
-                doSetCurrentUser={this.doSetCurrentUser}
-              />
-            )}
-          />
-
-          <Route render={() => <div>NOT FOUND</div>} />
-        </Switch>
-
         <table
           className="homeHeader"
           style={{
@@ -76,7 +36,7 @@ class App extends Component {
         >
           <tbody>
             <td>
-              <img alt="yelp-logo" width="50" src="yelp-logo.png" />
+              <img width="50" src=" ./img/yelp-logo.png" />
             </td>
             <td>restaurants info</td>
           </tbody>
@@ -94,6 +54,46 @@ class App extends Component {
           placeholder="enter location"
         />
         {this.state.rows}
+        <NavBar />
+        <Switch>
+          <Route exact path={routes.ROOT} render={() => <div>ROOT</div>} />
+          <Route
+            exact
+            path={routes.HOME}
+            render={() => <RestaurantsList currentUser={currentUser} />}
+          />
+          <Route
+            exact
+            path={`${routes.USERS}/:id`}
+            render={() => <ShowUser currentUser={currentUser} />}
+          />
+
+          <Route exact path={routes.USERS} render={() => <div>USER</div>} />
+          <Route exact path={routes.POSTS} render={() => <div>POST</div>} />
+          <Route
+            exact
+            path={"/login"}
+            render={() => (
+              <Login
+                doSetCurrentUser={this.doSetCurrentUser}
+                currentUser={this.state.currentUser}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path={routes.LOGIN}
+            render={() => (
+              <Login
+                currentUser={this.state.currentUser}
+                doSetCurrentUser={this.doSetCurrentUser}
+              />
+            )}
+          />
+
+          <Route render={() => <div>NOT FOUND</div>} />
+        </Switch>
       </div>
     );
   }
