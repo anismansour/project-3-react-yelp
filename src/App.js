@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
+import ShowUser from "./components/ShowUser/ShowUser";
 import RestaurantsList from "./components/RestaurantList/RestaurantsList";
-//import yelp from "yelp-fusion";
 
 import NavBar from "./components/NavBar/NavBar";
 import * as routes from "./constants/routes";
@@ -11,55 +11,55 @@ import * as routes from "./constants/routes";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
-    const restaurants = [
-      {
-        id: 0,
-        restaurantImage:
-          "https://s3-media3.fl.yelpcdn.com/bphoto/E-ygMSaXJk5HYzh2_8_xhg/348s.jpg",
-        name: "taco",
-        description: " restaurant description "
-      },
-      {
-        id: 1,
-        restaurantImage:
-          "https://s3-media2.fl.yelpcdn.com/bphoto/uIoO6R18-4QWa3Lmf4uuNA/o.jpg",
-        name: "fish",
-        description: " restaurant description 2 "
-      },
-      {
-        id: 2,
-        restaurantImage:
-          "https://s3-media3.fl.yelpcdn.com/bphoto/E-ygMSaXJk5HYzh2_8_xhg/348s.jpg",
-        name: "taco2",
-        description: " restaurant description3 "
-      }
-    ];
-
-    let restaurantLists = [];
-
-    restaurants.forEach(restaurant => {
-      console.log(restaurant.id);
-      console.log(restaurant.name);
-      const restaurantList = <RestaurantsList restaurant={restaurant} />;
-
-      restaurantLists.push(restaurantList);
-    });
-    this.state = { rows: restaurantLists };
+    this.state = {
+      currentUser: {}
+    };
   }
 
+  doSetCurrentUser = user => {
+    this.setState({ currentUser: user });
+  };
+
   render() {
+    const { currentUser } = this.state;
     return (
       <div>
         <NavBar />
         <Switch>
           <Route exact path={routes.ROOT} render={() => <div>ROOT</div>} />
-          {/* <Route exact path={routes.HOME} render={() => <RestaurantsList />} /> */}
+          <Route
+            exact
+            path={routes.HOME}
+            render={() => <RestaurantsList currentUser={currentUser} />}
+          />
 
           <Route exact path={routes.USERS} render={() => <div>USER</div>} />
           <Route exact path={routes.POSTS} render={() => <div>POST</div>} />
-          <Route exact path={"/login"} render={() => <Login />} />
+          <Route
+            exact
+            path={"/login"}
+            render={() => (
+              <Login
+                doSetCurrentUser={this.doSetCurrentUser}
+                currentUser={this.state.currentUser}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={`${routes.USERS}/:id`}
+            render={() => <ShowUser />}
+          />
+          <Route
+            exact
+            path={routes.LOGIN}
+            render={() => (
+              <Login
+                currentUser={this.state.currentUser}
+                doSetCurrentUser={this.doSetCurrentUser}
+              />
+            )}
+          />
 
           <Route render={() => <div>NOT FOUND</div>} />
         </Switch>

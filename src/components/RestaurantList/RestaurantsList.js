@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import RestChild from "../RestChild/RestChild";
+import "./restaurants.css";
 
 class RestaurantsList extends Component {
   state = {
@@ -6,49 +8,28 @@ class RestaurantsList extends Component {
   };
 
   componentDidMount() {
-    this.getRestaurants();
+    this.getRestaurants().then(res => this.setState({ restaurants: res.data }));
   }
 
   getRestaurants = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1");
+      const response = await fetch("/api/v1");
       const restaurantParsed = await response.json();
-      console.log(restaurantParsed);
-      this.setState({ restaurants: restaurantParsed.data[0].name });
+      return restaurantParsed;
     } catch (err) {
       console.log(err);
       return err;
     }
   };
-
   render() {
-    // const ListRestaurants = props => {
-    //   const listRestaurants = props.restaurants.map((restaurant, i) => (
-    //     <div>
-    //       <li key={i}>{restaurant.description.title}</li>
-    //     </div>
-    //   ));
-    // };
-
+    const { restaurants } = this.state;
     return (
-      <table key={this.props.restaurant.id}>
-        <tbody>
-          <tr>
-            <td>
-              <img
-                alt="picture"
-                width="60"
-                src={this.props.restaurant.restaurantImage}
-              />
-            </td>
-            <td>
-              {/* {listRestaurants} */}
-              <h1>{this.state.restaurants}</h1>
-              <p>{this.props.restaurant.description}</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        <RestChild
+          restaurants={restaurants}
+          currentUser={this.props.currentUser}
+        />
+      </div>
     );
   }
 }

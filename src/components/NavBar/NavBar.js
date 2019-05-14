@@ -1,23 +1,31 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+
 import * as routes from "../../constants/routes";
 import "./NavBar.css";
 
-const NavBar = () => (
+const NavBar = ({ currentUser }) => (
   <div>
-    <h5>NavBar</h5>
-    <NavLink to={routes.HOME} activeClassName="active">
+    <h5>NAVBAR</h5>
+    <NavLink exact activeClassName="selected" to={routes.ROOT}>
+      ROOT
+    </NavLink>
+    <NavLink to={routes.HOME} activeClassName="selected">
       HOME{" "}
     </NavLink>
-    <NavLink to={routes.USERS} activeClassName="active">
+    <NavLink to={routes.USERS} activeClassName="selected">
       USERS{" "}
     </NavLink>
-    <NavLink to={routes.POSTS} activeClassName="active">
+    <NavLink to={routes.POSTS} activeClassName="selected">
       POSTS{" "}
     </NavLink>
-    <NavLink exact to={routes.ROOT} activeClassName="active">
-      ROOT{" "}
-    </NavLink>
+    {currentUser ? (
+      <span>hello {currentUser.username}</span>
+    ) : (
+      <NavLink to={"/login"} activeClassName="selected">
+        login{" "}
+      </NavLink>
+    )}
   </div>
 );
 
