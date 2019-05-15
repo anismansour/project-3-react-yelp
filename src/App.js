@@ -1,23 +1,32 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import Login from "./components/Login/Login";
 import ShowUser from "./components/ShowUser/ShowUser";
 import RestaurantsList from "./components/RestaurantList/RestaurantsList";
-
+import "materialize-css/dist/css/materialize.min.css";
 import NavBar from "./components/NavBar/NavBar";
 import * as routes from "./constants/routes";
+import Register from "./components/Register/Register";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {}
+      // currentUser: {}
+      currentUser: null
     };
   }
 
   doSetCurrentUser = user => {
     this.setState({ currentUser: user });
+  };
+
+  doLogout = () => {
+    this.setState({
+      currentUser: null
+    });
+    this.props.history.push(routes.LOGIN);
   };
 
   render() {
@@ -36,13 +45,13 @@ class App extends Component {
         >
           <tbody>
             <td>
-              <img width="50" src=" ./img/yelp-logo.png" />
+              <img width="50" src=" ./yelp-logo.png" />
             </td>
             <td>restaurants info</td>
           </tbody>
         </table>
 
-        <input
+        {/* <input
           style={{
             fontSize: 24,
             display: "block",
@@ -52,9 +61,9 @@ class App extends Component {
             paddingLeft: 16
           }}
           placeholder="enter location"
-        />
+        /> */}
         {this.state.rows}
-        <NavBar />
+        <NavBar currentUser={currentUser} doLogout={this.doLogout} />
         <Switch>
           <Route exact path={routes.ROOT} render={() => <div>ROOT</div>} />
           <Route
@@ -62,12 +71,12 @@ class App extends Component {
             path={routes.HOME}
             render={() => <RestaurantsList currentUser={currentUser} />}
           />
+
           <Route
             exact
             path={`${routes.USERS}/:id`}
             render={() => <ShowUser currentUser={currentUser} />}
           />
-
           <Route exact path={routes.USERS} render={() => <div>USER</div>} />
           <Route exact path={routes.POSTS} render={() => <div>POST</div>} />
           <Route
@@ -92,11 +101,20 @@ class App extends Component {
             )}
           />
 
-          <Route render={() => <div>NOT FOUND</div>} />
+          <Route
+            exact
+            path={routes.REGISTER}
+            render={() => (
+              <Register
+                currentUser={this.state.currentUser}
+                doSetCurrentUser={this.doSetCurrentUser}
+              />
+            )}
+          />
         </Switch>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

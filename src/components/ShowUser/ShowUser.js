@@ -5,12 +5,23 @@ import RestaurantList from "../RestChild/RestChild";
 
 class ShowUser extends Component {
   state = {
-    user: {}
+    user: {},
+    data: {
+      todo: ""
+    }
   };
 
   componentDidMount() {
     this.doGetUser().then(({ user }) => this.setState({ user }));
   }
+
+  changeHandler = e => {
+    this.setState({
+      data: {
+        [e.target.name]: e.target.value
+      }
+    });
+  };
 
   doGetUser = async () => {
     try {
@@ -44,7 +55,38 @@ class ShowUser extends Component {
     }
   };
 
+  EditTodo = async index => {
+    // console.log(this.state.todo);
+    try {
+      const editResponse = await fetch(
+        `/users/${this.props.match.params.id}/restaurants/${index}`,
+        {
+          method: "PUT",
+          credential: "include",
+          body: JSON.stringify(this.state.data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      // console.log(editResponse);
+      const editResponseJson = await editResponse.json();
+      console.log(editResponseJson);
+      if (editResponseJson.success) {
+        this.setState({
+          data: {
+            user: editResponseJson.data,
+            todo: ""
+          }
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
+    console.log(this.state.user.restaurantId);
     return (
       <div>
         <h1>{this.state.user.username}</h1>
@@ -53,7 +95,30 @@ class ShowUser extends Component {
         {this.state.user.restaurantId &&
           this.state.user.restaurantId.map((r, i) => (
             <li>
-              <Link to={`/restaurants/${r.id}`}>{r.name}</Link>
+              <br />
+              <img className="img" alt="picture" src={r.image_url} />
+              <br />
+              <a href={r.url}> {r.name} </a> <br />
+              <p>{r.categories[0].title}</p>
+              <p>{r.note ? r.note : "add a note!"}</p>
+              <form style={{ display: "flex" }}>
+                <input
+                  type="text"
+                  name="todo"
+                  placeholder="{this.state.note}"
+                  style={{ flex: "10", padding: "5px" }}
+                  value={this.state.data.todo}
+                  onChange={this.changeHandler}
+                />
+              </form>
+              <button
+                className="btn"
+                style={{ flex: "1", color: "white", backgroundColor: "red" }}
+                onClick={() => this.EditTodo(i)}
+              >
+                Submit
+              </button>
+              <br />
               <button onClick={() => this.doDeleteRestaurant(r.id)}>
                 delete
               </button>

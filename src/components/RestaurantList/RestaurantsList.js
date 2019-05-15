@@ -4,7 +4,9 @@ import "./restaurants.css";
 
 class RestaurantsList extends Component {
   state = {
-    restaurants: []
+    restaurants: [],
+    time: String,
+    location: String
   };
 
   componentDidMount() {
