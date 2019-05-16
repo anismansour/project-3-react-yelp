@@ -25,8 +25,7 @@ const NavBar = ({ currentUser, doLogout }) => {
       )}
       {currentUser ? (
         <span>
-          hello {currentUser.username}
-          <button onclick={doLogout}>logout</button>{" "}
+          <button onClick={doLogout}>logout</button>
         </span>
       ) : (
         [
@@ -35,7 +34,7 @@ const NavBar = ({ currentUser, doLogout }) => {
           </NavLink>
         ]
       )}
-      }
+
       {currentUser ? (
         <span>hello {currentUser.username}</span>
       ) : (

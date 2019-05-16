@@ -79,23 +79,13 @@ class App extends Component {
           />
           <Route exact path={routes.USERS} render={() => <div>USER</div>} />
           <Route exact path={routes.POSTS} render={() => <div>POST</div>} />
-          <Route
-            exact
-            path={"/login"}
-            render={() => (
-              <Login
-                doSetCurrentUser={this.doSetCurrentUser}
-                currentUser={this.state.currentUser}
-              />
-            )}
-          />
 
           <Route
             exact
             path={routes.LOGIN}
             render={() => (
               <Login
-                currentUser={this.state.currentUser}
+                currentUser={currentUser}
                 doSetCurrentUser={this.doSetCurrentUser}
               />
             )}
