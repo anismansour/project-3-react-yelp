@@ -33,7 +33,7 @@ class App extends Component {
     const { currentUser } = this.state;
     return (
       <div>
-        <table
+        {/* <table
           className="homeHeader"
           style={{
             backgroundColor: "red",
@@ -47,9 +47,10 @@ class App extends Component {
             <td>
               <img width="50" src=" ./yelp-logo.png" />
             </td>
-            <td>restaurants info</td>
+            <td>Where to go</td>
+            <NavBar currentUser={currentUser} doLogout={this.doLogout} />
           </tbody>
-        </table>
+        </table> */}
 
         {/* <input
           style={{
@@ -64,8 +65,8 @@ class App extends Component {
         /> */}
         {this.state.rows}
         <NavBar currentUser={currentUser} doLogout={this.doLogout} />
+
         <Switch>
-          <Route exact path={routes.ROOT} render={() => <div>ROOT</div>} />
           <Route
             exact
             path={routes.HOME}
