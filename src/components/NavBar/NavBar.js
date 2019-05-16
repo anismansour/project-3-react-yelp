@@ -23,15 +23,24 @@ const NavBar = ({ currentUser, doLogout }) => {
           {currentUser.username} Profile{" "}
         </NavLink>
       )}
-
       {currentUser ? (
         <span>
-          hello {currentUser.username}{" "}
-          <button onClick={doLogout}>LOGOUT</button>
+          hello {currentUser.username}
+          <button onclick={doLogout}>logout</button>{" "}
         </span>
       ) : (
+        [
+          <NavLink key={1} to={routes.REGISTER} activeClassName="selected">
+            Register{"   "}
+          </NavLink>
+        ]
+      )}
+      }
+      {currentUser ? (
+        <span>hello {currentUser.username}</span>
+      ) : (
         <NavLink to={"/login"} activeClassName="selected">
-          Login{" "}
+          login{" "}
         </NavLink>
       )}
     </div>
